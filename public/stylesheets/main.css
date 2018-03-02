@@ -6,6 +6,15 @@
     padding: 0;
 }
 
+.thumbnail .caption-full {
+     padding: 9px;
+}
+ 
 .delete-form {
     display: inline;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
 }

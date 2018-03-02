@@ -36,7 +36,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                     //save comment
                     comment.save();
                     //connect new comment to campground
-                    campground.comments.push(comment);
+                    campground.comments.push(comment._id);
                     campground.save();
                     //redirect to campground show page
                     req.flash("success", "Successfully created comment.");
