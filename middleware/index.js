@@ -48,19 +48,9 @@ middlewareObj.checkCommentOwnership = function(req, res, next){
 middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
-    } else {
-        req.flash("error", "You need to be logged in.");
-        res.redirect("/login");
     }
-};
-
-middlewareObj.isSafe = function(req, res, next) {
-    if(req.body.image.match(/^https:\/\/images\.unsplash\.com\/.*/)) {
-      next();
-    } else {
-      req.flash('error', 'Only images from images.unsplash.com allowed.');
-      res.redirect('back');
-    }
+    req.flash("error", "You need to be logged in.");
+    res.redirect("/login");
 };
 
 module.exports = middlewareObj;

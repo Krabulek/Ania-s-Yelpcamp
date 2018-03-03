@@ -11,28 +11,22 @@ var express        = require("express"),
     session        = require("express-session"),
     seedDB         = require("./seeds");
 
-//configure dotenv
-require("dotenv").load();
-
 //Requiring Routes   
 var commentRoutes     = require("./routes/comments"),
     campgroundsRoutes = require("./routes/campgrounds"),
-    authRoutes        = require("./routes/auth"); 
+    authRoutes        = require("./routes/auth");
 
-var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp";
-mongoose.connect(url, {useMongoClient: true});
-//mongoose.connect("mongodb://Cynka:cynka@ds245228.mlab.com:45228/yelp_camp", {useMongoClient: true});
+//mongoose.connect(process.env.DATABASEURL, {useMongoClient: true});
+mongoose.connect("mongodb://Cynka:cynka@ds245228.mlab.com:45228/yelp_camp", {useMongoClient: true});
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 mongoose.Promise = global.Promise;
-app.use(cookieParser("secret"));
+app.use(flash());
 //seedDB();
-
-//require moment
-app.locals.moment = require("moment");
 
 // Passport configuration
 app.use(require("express-session")({
@@ -40,8 +34,6 @@ app.use(require("express-session")({
     resave: false,
     saveUninitialized: false
 }));
-
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
