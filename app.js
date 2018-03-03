@@ -27,7 +27,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 mongoose.Promise = global.Promise;
 app.use(flash());
-//seedDB();
+seedDB();
 
 // Passport configuration
 app.use(require("express-session")({
