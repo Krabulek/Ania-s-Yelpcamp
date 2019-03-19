@@ -1,30 +1,33 @@
-var express        = require("express"),
-    app            = express(),
-    bodyParser     = require("body-parser"),
-    cookieParser   = require("cookie-parser"),
-    flash          = require("connect-flash"),
-    mongoose       = require("mongoose"),
-    passport       = require("passport"),
-    LocalStrategy  = require("passport-local"),
-    methodOverride = require("method-override"),
-    User           = require("./models/user"),
-    session        = require("express-session"),
-    seedDB         = require("./seeds");
+require("dotenv").config();
+
+var express          = require("express"),
+    app              = express(),
+    expressSanitizer = require("express-sanitizer"),
+    bodyParser       = require("body-parser"),
+    cookieParser     = require("cookie-parser"),
+    flash            = require("connect-flash"),
+    mongoose         = require("mongoose"),
+    passport         = require("passport"),
+    LocalStrategy    = require("passport-local"),
+    methodOverride   = require("method-override"),
+    User             = require("./models/user"),
+    session          = require("express-session"),
+    seedDB           = require("./seeds");
 
 //Requiring Routes   
 var commentRoutes     = require("./routes/comments"),
     campgroundsRoutes = require("./routes/campgrounds"),
     authRoutes        = require("./routes/auth");
 
-//mongoose.connect(process.env.DATABASEURL, {useMongoClient: true});
-//mongoose.connect("mongodb://Cynka:cynka@ds245228.mlab.com:45228/yelp_camp", {useMongoClient: true});
-var url = process.env.DATABASEURL || "mongodb://Cynka:cynka@ds245228.mlab.com:45228/yelp_camp";
-mongoose.connect(url, {useMongoClient: true});
+
+//var url = process.env.DATABASEURL || "mongodb://Cynka:cynka@ds245228.mlab.com:45228/yelp_camp";
+mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(expressSanitizer());
 mongoose.Promise = global.Promise;
 app.use(flash());
 //seedDB();

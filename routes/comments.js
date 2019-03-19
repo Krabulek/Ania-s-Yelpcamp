@@ -74,7 +74,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
 
 //Destroy Comment Route
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
-    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+    Comment.findByIdAndDelete(req.params.comment_id, function(err){
         if(err){
             req.flash("error", "Something went wrong.");
             res.redirect("back");

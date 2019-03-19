@@ -1,7 +1,8 @@
 var express     = require("express"),
     router      = express.Router(),
     Campground  = require("../models/campground"),
-    middleware  = require("../middleware");
+    middleware  = require("../middleware"),
+    request     = require("request");
 
 //Index Route
 router.get("/", function(req, res){
@@ -71,6 +72,7 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
 //Update Campground Route
 router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
     //find and update the correct campground
+    req.body.campground.description = req.sanitize(req.body.campground.description);
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
         if(err){
             req.flash("error", "Something went wrong.");
